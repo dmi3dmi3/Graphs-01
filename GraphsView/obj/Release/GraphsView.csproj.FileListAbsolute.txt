@@ -1,0 +1,15 @@
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\bin\Release\GraphsView.exe.config
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\bin\Release\GraphsView.exe
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\bin\Release\GraphsView.pdb
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.csprojAssemblyReference.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\MainWindow.g.cs
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\App.g.cs
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView_MarkupCompile.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView_MarkupCompile.lref
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\MainWindow.baml
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.g.resources
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.Properties.Resources.resources
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.csproj.GenerateResource.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.csproj.CoreCompileInputs.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.exe
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphsView\obj\Release\GraphsView.pdb

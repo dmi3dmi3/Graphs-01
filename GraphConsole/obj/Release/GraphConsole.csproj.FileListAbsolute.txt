@@ -1,0 +1,13 @@
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\GraphConsole.exe.config
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\GraphConsole.exe
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\GraphConsole.pdb
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\GraphTools.dll
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\nunit.framework.dll
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\GraphTools.pdb
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\nunit.framework.pdb
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Release\nunit.framework.xml
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Release\GraphConsole.csprojAssemblyReference.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Release\GraphConsole.csproj.CoreCompileInputs.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Release\GraphConsole.csproj.CopyComplete
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Release\GraphConsole.exe
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Release\GraphConsole.pdb
