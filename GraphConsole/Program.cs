@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GraphTools;
 
 namespace GraphConsole
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             do
             {
@@ -35,12 +32,12 @@ namespace GraphConsole
                 {
                     var nv = ConsoleX.GetValue<int>("Кол-во вершин");
                     var ne = ConsoleX.GetValue<int>("Кол-во дуг");
-                    var edges = new List<(int,int)>();
+                    var edges = new List<(int, int)>();
                     for (int j = 0; j < ne; j++)
                     {
                         var f = ConsoleX.GetValue<int>($"Первый конец {j} дуги");
                         var l = ConsoleX.GetValue<int>($"Второй конец {j} дуги");
-                        edges.Add((f,l));
+                        edges.Add((f, l));
                     }
                     graph = new GraphModel(nv, edges);
                 }
@@ -57,7 +54,7 @@ namespace GraphConsole
                     {
                         ConsoleX.Write($"{item} ", ConsoleColor.White);
                     }
-                    ConsoleX.WriteLine("",ConsoleColor.Black);
+                    ConsoleX.WriteLine("", ConsoleColor.Black);
                 }
             } while (true);
 

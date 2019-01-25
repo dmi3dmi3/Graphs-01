@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphsView", "GraphsView\GraphsView.csproj", "{B084F26C-4542-400F-A69E-C79F12991581}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTools", "..\GrahpTools\GraphTools.csproj", "{8B134518-2461-4488-AE56-70D9B8457044}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphConsole", "GraphConsole\GraphConsole.csproj", "{533B037B-408B-4494-9F00-33C0F4317024}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GraphTools", "GraphTools\GraphTools.csproj", "{13E1370F-1F6C-4F3B-ABDE-0DFFF7C78970}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{B084F26C-4542-400F-A69E-C79F12991581}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B084F26C-4542-400F-A69E-C79F12991581}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B084F26C-4542-400F-A69E-C79F12991581}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8B134518-2461-4488-AE56-70D9B8457044}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8B134518-2461-4488-AE56-70D9B8457044}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8B134518-2461-4488-AE56-70D9B8457044}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8B134518-2461-4488-AE56-70D9B8457044}.Release|Any CPU.Build.0 = Release|Any CPU
 		{533B037B-408B-4494-9F00-33C0F4317024}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{533B037B-408B-4494-9F00-33C0F4317024}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{533B037B-408B-4494-9F00-33C0F4317024}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{533B037B-408B-4494-9F00-33C0F4317024}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13E1370F-1F6C-4F3B-ABDE-0DFFF7C78970}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13E1370F-1F6C-4F3B-ABDE-0DFFF7C78970}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13E1370F-1F6C-4F3B-ABDE-0DFFF7C78970}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13E1370F-1F6C-4F3B-ABDE-0DFFF7C78970}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

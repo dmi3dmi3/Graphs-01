@@ -1,0 +1,9 @@
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\bin\Release\GraphTools.dll
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\bin\Release\GraphTools.pdb
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\bin\Release\nunit.framework.dll
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\bin\Release\nunit.framework.xml
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\obj\Release\GraphTools.csprojAssemblyReference.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\obj\Release\GraphTools.csproj.CoreCompileInputs.cache
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\obj\Release\GraphTools.csproj.CopyComplete
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\obj\Release\GraphTools.dll
+C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphTools\obj\Release\GraphTools.pdb
