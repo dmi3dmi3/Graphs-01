@@ -19,7 +19,6 @@ namespace GraphConsole
 
         public static void PrintValue(string name, object item)
         {
-
             Console.Write($"{name}:");
             switch (item)
             {
@@ -42,7 +41,7 @@ namespace GraphConsole
                     WriteLine(intValue.ToString(), ConsoleColor.Yellow);
                     break;
                 case Enum enumValue:
-                    WriteLine(enumValue.ToString(),ConsoleColor.Magenta);
+                    WriteLine(enumValue.ToString(), ConsoleColor.Magenta);
                     break;
                 case null:
                     WriteLine("NULL", ConsoleColor.Red);
@@ -51,7 +50,6 @@ namespace GraphConsole
                     WriteLine(item.ToString(), ConsoleColor.White);
                     break;
             }
-
         }
 
         public static void PrintBytes(string name, long bytes)
@@ -77,35 +75,26 @@ namespace GraphConsole
                 Console.Write($"{name}: ");
                 var stringItem = Console.ReadLine();
                 var itemType = typeof(TItem);
-                
+
                 if (itemType == typeof(int))
-                {
                     if (int.TryParse(stringItem, out var intResult))
-                        return (TItem)Convert.ChangeType(intResult, typeof(TItem));
-                }
+                        return (TItem) Convert.ChangeType(intResult, typeof(TItem));
 
                 if (itemType == typeof(long))
-                {
                     if (long.TryParse(stringItem, out var intResult))
-                        return (TItem)Convert.ChangeType(intResult, typeof(TItem));
-                }
+                        return (TItem) Convert.ChangeType(intResult, typeof(TItem));
                 if (itemType == typeof(float))
-                {
                     if (float.TryParse(stringItem, out var intResult))
-                        return (TItem)Convert.ChangeType(intResult, typeof(TItem));
-                }
+                        return (TItem) Convert.ChangeType(intResult, typeof(TItem));
                 if (itemType == typeof(double))
-                {
                     if (double.TryParse(stringItem, out var intResult))
-                        return (TItem)Convert.ChangeType(intResult, typeof(TItem));
-                }
+                        return (TItem) Convert.ChangeType(intResult, typeof(TItem));
                 if (itemType == typeof(string))
-                    return (TItem)Convert.ChangeType(stringItem, typeof(TItem));
+                    return (TItem) Convert.ChangeType(stringItem, typeof(TItem));
 
                 Console.Write("Invalid data, try again");
                 WriteLine($"({typeof(TItem)}).", ConsoleColor.DarkGray);
             }
-
         }
 
         public static TItem GetValue<TItem>(string name, TItem defaultValue)
@@ -120,54 +109,39 @@ namespace GraphConsole
                 var itemType = typeof(TItem);
 
                 if (itemType == typeof(int))
-                {
                     if (int.TryParse(stringItem, out var intResult))
                         return (TItem) Convert.ChangeType(intResult, typeof(TItem));
-                }
 
                 if (itemType == typeof(long))
-                {
                     if (long.TryParse(stringItem, out var intResult))
                         return (TItem) Convert.ChangeType(intResult, typeof(TItem));
-                }
 
                 if (itemType == typeof(float))
-                {
                     if (float.TryParse(stringItem, out var intResult))
                         return (TItem) Convert.ChangeType(intResult, typeof(TItem));
-                }
 
                 if (itemType == typeof(double))
-                {
                     if (double.TryParse(stringItem, out var intResult))
                         return (TItem) Convert.ChangeType(intResult, typeof(TItem));
-                }
 
                 if (itemType == typeof(DateTime))
-                {
                     if (DateTime.TryParse(stringItem, out var intResult))
                         return (TItem) Convert.ChangeType(intResult, typeof(TItem));
-                }
 
                 if (itemType == typeof(Enum))
-                {
                     try
                     {
                         var enumValue = Enum.Parse(typeof(TItem), stringItem, true);
-                        return (TItem)Convert.ChangeType(enumValue, typeof(TItem));
+                        return (TItem) Convert.ChangeType(enumValue, typeof(TItem));
                     }
                     catch (Exception e)
                     {
-                
                     }
-                
-                }
-            
+
 
                 if (itemType == typeof(string))
                     return (TItem) Convert.ChangeType(stringItem, typeof(TItem));
-               }
+            }
         }
-
     }
 }

@@ -1,7 +1,7 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace GraphTools
 {
@@ -10,56 +10,46 @@ namespace GraphTools
         #region Public methods
 
         /// <summary>
-        /// Graph facet search method
+        ///     Graph facet search method
         /// </summary>
         /// <param name="graph">Input graph</param>
         /// <returns></returns>
         public static List<List<int>> GetFacets(GraphModel graph)
         {
             //Установка изначальных значений необхомых для подсчетов
+
             #region Init
 
             var startCycle =
-        graph.CyclesCatalog.First(ints => graph.CyclesCatalog.TrueForAll(list => ints.Count >= list.Count));
+                graph.CyclesCatalog.First(ints => graph.CyclesCatalog.TrueForAll(list => ints.Count >= list.Count));
             var anotherEdges = new List<(int, int)>();
             var anotherVertex = new List<int>();
             var startCycleEdges = new List<(int, int)>();
 
-            for (int i = 0; i < startCycle.Count; i++)
+            for (var i = 0; i < startCycle.Count; i++)
             {
                 int t;
                 if (i == startCycle.Count - 1)
-                {
                     t = 0;
-                }
                 else
-                {
                     t = i + 1;
-                }
                 startCycleEdges.Add((startCycle[i], startCycle[t]));
             }
 
             foreach (var graphEdge in graph.Edges)
-            {
-                if (!startCycleEdges.Contains(graphEdge) && !startCycleEdges.Contains((graphEdge.Item2, graphEdge.Item1)))
-                {
+                if (!startCycleEdges.Contains(graphEdge) &&
+                    !startCycleEdges.Contains((graphEdge.Item2, graphEdge.Item1)))
                     anotherEdges.Add(graphEdge);
-                }
-            }
 
-            for (int i = 0; i < graph.VertexCount; i++)
-            {
+            for (var i = 0; i < graph.VertexCount; i++)
                 if (!startCycle.Contains(i))
-                {
                     anotherVertex.Add(i);
-                }
-            }
 
 
-            var facets = new List<List<int>>()
+            var facets = new List<List<int>>
             {
                 startCycle,
-                startCycle,
+                startCycle
             };
 
             var currentGraph = new GraphModel(startCycle.Count + anotherVertex.Count, startCycleEdges);
@@ -67,6 +57,7 @@ namespace GraphTools
             #endregion
 
             //Обработка ребер обе вершины которых находятся в изначальном цикле
+
             #region Straight edges
 
             // var straightEdges = (List<(int, int)>)anotherEdges.Where(tuple =>
@@ -118,16 +109,10 @@ namespace GraphTools
 
             while (true)
             {
-                if (anotherEdges.Count == 0)
-                {
-                    return facets;
-                }
+                if (anotherEdges.Count == 0) return facets;
 
                 var currentChain = FindGammaChain(currentGraph, anotherEdges);
-                for (int k = 0; k < currentChain.Count - 1; k++)
-                {
-                    graph.AddEdge((currentChain[k], currentChain[k + 1]));
-                }
+                for (var k = 0; k < currentChain.Count - 1; k++) graph.AddEdge((currentChain[k], currentChain[k + 1]));
                 var currentFacet = facets.First(ints =>
                     ints.Contains(currentChain[0]) && ints.Contains(currentChain[currentChain.Count - 1]));
                 facets.Remove(currentFacet);
@@ -144,10 +129,7 @@ namespace GraphTools
                 }
 
                 var j = currentChain.Count - 1;
-                while (j >= 0)
-                {
-                    newFacet1.Add(currentChain[j--]);
-                }
+                while (j >= 0) newFacet1.Add(currentChain[j--]);
 
 
                 i = indexLast;
@@ -158,10 +140,7 @@ namespace GraphTools
                 }
 
                 j = 0;
-                while (j < currentChain.Count)
-                {
-                    newFacet2.Add(currentChain[j++]);
-                }
+                while (j < currentChain.Count) newFacet2.Add(currentChain[j++]);
                 newFacet1.RemoveAt(0);
                 newFacet2.RemoveAt(0);
                 facets.Add(newFacet1);
@@ -174,7 +153,7 @@ namespace GraphTools
         #region Private methods
 
         /// <summary>
-        /// Метод поиска гамма цепей в графе построенных из конкретного набора ребер, отстутствующих в графе.
+        ///     Метод поиска гамма цепей в графе построенных из конкретного набора ребер, отстутствующих в графе.
         /// </summary>
         /// <param name="graph">Граф для поиска</param>
         /// <param name="anotherEdges">Список ребер из которых состовляются гамма-цепи. Итоговые ребра будут удалены.</param>
@@ -190,24 +169,18 @@ namespace GraphTools
                 if (graph.AdjacencyList.ContainsKey(anotherEdge.Item2))
                 {
                     anotherEdges.Remove(anotherEdge);
-                    return new List<int> { anotherEdge.Item1, anotherEdge.Item2 };
+                    return new List<int> {anotherEdge.Item1, anotherEdge.Item2};
                 }
 
                 var colors = new int[graph.AdjacencyList.Count];
-                for (int i = 0; i < colors.Length; i++)
-                {
-                    colors[i] = 0;
-                }
+                for (var i = 0; i < colors.Length; i++) colors[i] = 0;
 
                 var res = new List<int>();
                 ChainDFS(vertexFirst, colors, anotherEdges, graph, res);
 
                 if (!graph.AdjacencyList.ContainsKey(res[res.Count - 1]))
                     continue;
-                for (int i = 0; i < res.Count - 1; i++)
-                {
-                    anotherEdges.Remove((res[i], res[i + 1]));
-                }
+                for (var i = 0; i < res.Count - 1; i++) anotherEdges.Remove((res[i], res[i + 1]));
 
                 return res;
             }
@@ -217,7 +190,7 @@ namespace GraphTools
         }
 
         /// <summary>
-        /// Метод обхода в глубину переделанный для поиска гамма-цепей
+        ///     Метод обхода в глубину переделанный для поиска гамма-цепей
         /// </summary>
         /// <param name="u">Исходная вершина</param>
         /// <param name="colors">Массив окраски вершин</param>
@@ -227,16 +200,11 @@ namespace GraphTools
         private static void ChainDFS(int u, int[] colors, List<(int, int)> edges, GraphModel grap, List<int> chain)
         {
             if (!grap.AdjacencyList.ContainsKey(u))
-            {
                 colors[u] = 2;
-            }
             else
-            {
                 return;
-            }
 
-            for (int i = 0; i < edges.Count; i++)
-            {
+            for (var i = 0; i < edges.Count; i++)
                 if (colors[edges[i].Item2] == 1 && edges[i].Item1 == u)
                 {
                     chain.Add(edges[i].Item2);
@@ -249,8 +217,6 @@ namespace GraphTools
                     ChainDFS(edges[i].Item1, colors, edges, grap, chain);
                     colors[edges[i].Item1] = 1;
                 }
-            }
-
         }
 
         #endregion
@@ -265,17 +231,17 @@ namespace GraphTools
             {
                 var graph = new GraphModel(7, new List<(int, int)>
                 {
-                    (0,1),
-                    (1,2),
-                    (2,3),
-                    (3,4),
-                    (4,5),
-                    (5,0),
-                    (0,3),
-                    (2,4),
-                    (5,6),
-                    (4,6),
-                    (1,4),
+                    (0, 1),
+                    (1, 2),
+                    (2, 3),
+                    (3, 4),
+                    (4, 5),
+                    (5, 0),
+                    (0, 3),
+                    (2, 4),
+                    (5, 6),
+                    (4, 6),
+                    (1, 4)
                 });
                 var t = GetFacets(graph);
             }
@@ -285,12 +251,12 @@ namespace GraphTools
             {
                 var graph = new GraphModel(4, new List<(int, int)>
                 {
-                    (0,1),
-                    (1,2),
-                    (2,0),
-                    (3,1),
-                    (3,2),
-                    (3,0),
+                    (0, 1),
+                    (1, 2),
+                    (2, 0),
+                    (3, 1),
+                    (3, 2),
+                    (3, 0)
                 });
                 var t = GetFacets(graph);
             }
@@ -300,20 +266,20 @@ namespace GraphTools
             {
                 var graph = new GraphModel(9, new List<(int, int)>
                 {
-                    (0,1),
-                    (0,4),
-                    (0,2),
-                    (1,4),
-                    (1,5),
-                    (2,3),
-                    (2,6),
-                    (3,4),
-                    (3,7),
-                    (4,5),
-                    (4,8),
-                    (5,8),
-                    (6,7),
-                    (7,8),
+                    (0, 1),
+                    (0, 4),
+                    (0, 2),
+                    (1, 4),
+                    (1, 5),
+                    (2, 3),
+                    (2, 6),
+                    (3, 4),
+                    (3, 7),
+                    (4, 5),
+                    (4, 8),
+                    (5, 8),
+                    (6, 7),
+                    (7, 8)
                 });
                 var t = GetFacets(graph);
             }

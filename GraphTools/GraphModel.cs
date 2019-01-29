@@ -1,17 +1,74 @@
-﻿using NUnit.Framework;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using NUnit.Framework;
 
 namespace GraphTools
 {
     public class GraphModel
     {
+        #region Tests
+
+        [TestFixture]
+        public class GraphTests
+        {
+            public bool CompareCycles(List<List<int>> leftCycles, List<List<int>> rightCycles)
+            {
+                var graph = new GraphModel(2, new List<(int, int)> {(0, 1)});
+                foreach (var rightCycle in rightCycles)
+                    if (!graph.CheckCycleContains(leftCycles, rightCycle))
+                        return false;
+
+                return true;
+            }
+
+            [Test]
+            public void CycleTest1()
+            {
+                var graph = new GraphModel(3, new List<(int, int)>
+                {
+                    (0, 1), (1, 2), (2, 0)
+                });
+                var t = graph.CyclesCatalog;
+                Assert.True(CompareCycles(t, new List<List<int>>
+                {
+                    new List<int> {0, 1, 2}
+                }));
+            }
+
+            [Test]
+            public void CycleTest2()
+            {
+                var graph = new GraphModel(7, new List<(int, int)>
+                {
+                    (0, 1),
+                    (1, 2),
+                    (2, 3),
+                    (3, 4),
+                    (4, 5),
+                    (5, 0),
+                    (0, 3),
+                    (2, 4),
+                    (5, 6),
+                    (4, 6),
+                    (1, 4)
+                });
+                var t = graph.CyclesCatalog.First(ints =>
+                    graph.CyclesCatalog.TrueForAll(list => ints.Count >= list.Count));
+
+                Assert.True(
+                    graph.CheckCycleContains(new List<List<int>> {t}, new List<int> {0, 1, 2, 3, 4, 6, 5})
+                );
+            }
+        }
+
+        #endregion
+
         #region Public properties
 
         public int VertexCount { get; private set; }
-        public List<(int, int)> Edges { get; private set; }
-        public Dictionary<int, List<int>> AdjacencyList { get; private set; }
-        public List<List<int>> CyclesCatalog { get; private set; }
+        public List<(int, int)> Edges { get; }
+        public Dictionary<int, List<int>> AdjacencyList { get; }
+        public List<List<int>> CyclesCatalog { get; }
 
         #endregion
 
@@ -20,7 +77,7 @@ namespace GraphTools
         #region Constructors
 
         /// <summary>
-        /// Конструктор графа 
+        ///     Конструктор графа
         /// </summary>
         /// <param name="vertexCount">Количество вершин. Номера от 0 до vertexCount-1</param>
         /// <param name="edges">Список ребер</param>
@@ -32,33 +89,24 @@ namespace GraphTools
             foreach (var edge in edges)
             {
                 if (AdjacencyList.ContainsKey(edge.Item1))
-                {
                     AdjacencyList[edge.Item1].Add(edge.Item2);
-                }
                 else
-                {
-                    AdjacencyList.Add(edge.Item1, new List<int> { edge.Item2 });
-                }
+                    AdjacencyList.Add(edge.Item1, new List<int> {edge.Item2});
+
                 if (AdjacencyList.ContainsKey(edge.Item2))
-                {
                     AdjacencyList[edge.Item2].Add(edge.Item1);
-                }
                 else
-                {
-                    AdjacencyList.Add(edge.Item2, new List<int> { edge.Item1 });
-                }
+                    AdjacencyList.Add(edge.Item2, new List<int> {edge.Item1});
             }
 
-            for (var i = 0; i < VertexCount; i++)
-            {
-                AdjacencyList[i].Sort();
-            }
+            for (var i = 0; i < VertexCount; i++) AdjacencyList[i].Sort();
+
             CyclesCatalog = new List<List<int>>();
             CyclesSearch();
         }
 
         /// <summary>
-        /// Конструктор графа 
+        ///     Конструктор графа
         /// </summary>
         /// <param name="vertexCount">Количество вершин. Номера от 0 до vertexCount-1</param>
         /// <param name="adjacencyList">Список смежности графа</param>
@@ -69,15 +117,9 @@ namespace GraphTools
             Edges = new List<(int, int)>();
 
             foreach (var v1 in adjacencyList)
-            {
-                foreach (var v2 in v1.Value)
-                {
-                    if (!Edges.Contains((v1.Key, v2)) && !Edges.Contains((v2, v1.Key)))
-                    {
-                        Edges.Add((v1.Key, v2));
-                    }
-                }
-            }
+            foreach (var v2 in v1.Value)
+                if (!Edges.Contains((v1.Key, v2)) && !Edges.Contains((v2, v1.Key)))
+                    Edges.Add((v1.Key, v2));
 
             CyclesCatalog = new List<List<int>>();
             CyclesSearch();
@@ -86,45 +128,32 @@ namespace GraphTools
         #endregion
 
         /// <summary>
-        /// Метод добавления нового ребра графа. Игнорирует повторное добавление.
+        ///     Метод добавления нового ребра графа. Игнорирует повторное добавление.
         /// </summary>
         /// <param name="edge">Новое ребро</param>
-        public void AddEdge((int,int) edge)
+        public void AddEdge((int, int) edge)
         {
-            if (Edges.Contains(edge))
-            {
-                return;
-            }
+            if (Edges.Contains(edge)) return;
 
             Edges.Add(edge);
             if (AdjacencyList.ContainsKey(edge.Item1))
-            {
                 AdjacencyList[edge.Item1].Add(edge.Item2);
-            }
             else
-            {
-                AdjacencyList.Add(edge.Item1, new List<int> { edge.Item2 });
-            }
+                AdjacencyList.Add(edge.Item1, new List<int> {edge.Item2});
+
             if (AdjacencyList.ContainsKey(edge.Item2))
-            {
                 AdjacencyList[edge.Item2].Add(edge.Item1);
-            }
             else
-            {
-                AdjacencyList.Add(edge.Item2, new List<int> { edge.Item1 });
-            }
+                AdjacencyList.Add(edge.Item2, new List<int> {edge.Item1});
         }
 
         /// <summary>
-        /// Метод удаления ребра из графа. Игнорирует удаление несуществующего ребра
+        ///     Метод удаления ребра из графа. Игнорирует удаление несуществующего ребра
         /// </summary>
         /// <param name="edge"></param>
         public void RemoveEdge((int, int) edge)
         {
-            if (!Edges.Contains(edge))
-            {
-                return;
-            }
+            if (!Edges.Contains(edge)) return;
 
             Edges.Remove(edge);
             AdjacencyList[edge.Item1].Remove(edge.Item2);
@@ -132,15 +161,12 @@ namespace GraphTools
         }
 
         /// <summary>
-        /// Метод добавления новых вершин в граф. Игнорирует не положительные значения.
+        ///     Метод добавления новых вершин в граф. Игнорирует не положительные значения.
         /// </summary>
         /// <param name="count">Количество вершин которые нужно добавить</param>
         public void AddVertex(int count)
         {
-            if (count <=0)
-            {
-                return;
-            }
+            if (count <= 0) return;
 
             VertexCount += count;
         }
@@ -152,22 +178,22 @@ namespace GraphTools
         #region Cycles
 
         /// <summary>
-        /// Основной метод поиска циклов в графе. Заполняет свойство CyclesCatalog.
+        ///     Основной метод поиска циклов в графе. Заполняет свойство CyclesCatalog.
         /// </summary>
         private void CyclesSearch()
         {
-            int[] color = new int[VertexCount];
-            for (int i = 0; i < VertexCount; i++)
+            var color = new int[VertexCount];
+            for (var i = 0; i < VertexCount; i++)
             {
-                for (int k = 0; k < VertexCount; k++)
+                for (var k = 0; k < VertexCount; k++)
                     color[k] = 1;
-                List<int> cycle = new List<int>();
+                var cycle = new List<int>();
                 DFSCycle(i, i, color, -1, cycle);
             }
         }
 
         /// <summary>
-        /// Измененный обход в глубину для поиска циклов
+        ///     Измененный обход в глубину для поиска циклов
         /// </summary>
         /// <param name="u">Текущая вершина.</param>
         /// <param name="endV">Конечная вершина.</param>
@@ -178,7 +204,7 @@ namespace GraphTools
         {
             if (u != endV)
             {
-                color[u] = 2;
+                color[u] = 2; 
             }
             else if (cycle.Count >= 2)
             {
@@ -191,21 +217,16 @@ namespace GraphTools
                     if (!CheckCycleContains(CyclesCatalog, res))
                     {
                         res.Reverse();
-                        if (!CheckCycleContains(CyclesCatalog, res))
-                        {
-                            CyclesCatalog.Add(res);
-                        }
+                        if (!CheckCycleContains(CyclesCatalog, res)) CyclesCatalog.Add(res);
                     }
                 }
+
                 return;
             }
 
-            for (int i = 0; i < Edges.Count; i++)
+            for (var i = 0; i < Edges.Count; i++)
             {
-                if (i == unavailableEdge)
-                {
-                    continue;
-                }
+                if (i == unavailableEdge) continue;
 
                 if (color[Edges[i].Item2] == 1 && Edges[i].Item1 == u)
                 {
@@ -224,7 +245,7 @@ namespace GraphTools
         }
 
         /// <summary>
-        /// Проверка наличия цикла newCycle и подобных ему в списке циклов cycles
+        ///     Проверка наличия цикла newCycle и подобных ему в списке циклов cycles
         /// </summary>
         /// <param name="cycles">Список циклов в котором идет поиск</param>
         /// <param name="newCycle">Искомый цикл</param>
@@ -250,74 +271,13 @@ namespace GraphTools
                     break;
                 }
 
-                if (flag)
-                {
-                    return true;
-                }
+                if (flag) return true;
             }
+
             return false;
         }
 
         #endregion
-
-        #endregion
-
-        #region Tests
-
-        [TestFixture]
-        public class GraphTests
-        {
-            [Test]
-            public void CycleTest1()
-            {
-                var graph = new GraphModel(3, new List<(int, int)>
-                {
-                    (0,1),(1,2),(2,0),
-                });
-                var t = graph.CyclesCatalog;
-                Assert.True(CompareCycles(t, new List<List<int>>{
-                            new List<int>{0,1,2},
-                        }));
-            }
-
-            [Test]
-            public void CycleTest2()
-            {
-                var graph = new GraphModel(7, new List<(int, int)>
-                {
-                    (0,1),
-                    (1,2),
-                    (2,3),
-                    (3,4),
-                    (4,5),
-                    (5,0),
-                    (0,3),
-                    (2,4),
-                    (5,6),
-                    (4,6),
-                    (1,4),
-                });
-                var t = graph.CyclesCatalog.First(ints => graph.CyclesCatalog.TrueForAll(list => ints.Count >= list.Count));
-
-                Assert.True(
-                    graph.CheckCycleContains(new List<List<int>> { t }, new List<int> { 0, 1, 2, 3, 4, 6, 5 })
-                    );
-            }
-
-
-            public bool CompareCycles(List<List<int>> leftCycles, List<List<int>> rightCycles)
-            {
-                var graph = new GraphModel(2, new List<(int, int)>() { (0, 1) });
-                foreach (var rightCycle in rightCycles)
-                {
-                    if (!graph.CheckCycleContains(leftCycles, rightCycle))
-                    {
-                        return false;
-                    }
-                }
-                return true;
-            }
-        }
 
         #endregion
     }
