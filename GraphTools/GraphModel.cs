@@ -85,7 +85,7 @@ namespace GraphTools
         {
             VertexCount = vertexCount;
             Edges = edges;
-            AdjacencyList = new Dictionary<int, List<int>>();
+            AdjacencyList = new Dictionary<int, List<int>>(vertexCount);
             foreach (var edge in edges)
             {
                 if (AdjacencyList.ContainsKey(edge.Item1))
@@ -99,7 +99,6 @@ namespace GraphTools
                     AdjacencyList.Add(edge.Item2, new List<int> {edge.Item1});
             }
 
-            for (var i = 0; i < VertexCount; i++) AdjacencyList[i].Sort();
 
             CyclesCatalog = new List<List<int>>();
             CyclesSearch();
@@ -188,7 +187,7 @@ namespace GraphTools
                 for (var k = 0; k < VertexCount; k++)
                     color[k] = 1;
                 var cycle = new List<int>();
-                DFSCycle(i, i, color, -1, cycle);
+                DfsCycle(i, i, color, -1, cycle);
             }
         }
 
@@ -200,7 +199,7 @@ namespace GraphTools
         /// <param name="color">Масств цветов вершин графа.</param>
         /// <param name="unavailableEdge">Последняя пройденная грань.</param>
         /// <param name="cycle">Список для хранения цикла. Изначально пуст.</param>
-        private void DFSCycle(int u, int endV, int[] color, int unavailableEdge, List<int> cycle)
+        private void DfsCycle(int u, int endV, int[] color, int unavailableEdge, List<int> cycle)
         {
             if (u != endV)
             {
@@ -232,14 +231,14 @@ namespace GraphTools
                 {
                     var cycleNew = new List<int>(cycle);
                     cycleNew.Add(Edges[i].Item2);
-                    DFSCycle(Edges[i].Item2, endV, color, i, cycleNew);
+                    DfsCycle(Edges[i].Item2, endV, color, i, cycleNew);
                     color[Edges[i].Item2] = 1;
                 }
                 else if (color[Edges[i].Item1] == 1 && Edges[i].Item2 == u)
                 {
                     var cycleNew = new List<int>(cycle);
                     cycleNew.Add(Edges[i].Item1);
-                    DFSCycle(Edges[i].Item1, endV, color, i, cycleNew);
+                    DfsCycle(Edges[i].Item1, endV, color, i, cycleNew);
                 }
             }
         }

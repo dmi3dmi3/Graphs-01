@@ -4,7 +4,6 @@ C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\Graph
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\GraphTools.dll
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\nunit.framework.dll
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\GraphTools.pdb
-C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\nunit.framework.pdb
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\bin\Debug\nunit.framework.xml
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Debug\GraphConsole.csprojAssemblyReference.cache
 C:\Users\Dmi3-1\Desktop\MyProjects\Diplom\Graphs-01\GraphConsole\obj\Debug\GraphConsole.csproj.CoreCompileInputs.cache

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using NUnit.Framework;
 
 namespace GraphTools
 {
@@ -23,7 +23,7 @@ namespace GraphTools
             var startCycle =
                 graph.CyclesCatalog.First(ints => graph.CyclesCatalog.TrueForAll(list => ints.Count >= list.Count));
             var anotherEdges = new List<(int, int)>();
-            var anotherVertex = new List<int>();
+            var anotherVertexes = new List<int>();
             var startCycleEdges = new List<(int, int)>();
 
             for (var i = 0; i < startCycle.Count; i++)
@@ -43,7 +43,7 @@ namespace GraphTools
 
             for (var i = 0; i < graph.VertexCount; i++)
                 if (!startCycle.Contains(i))
-                    anotherVertex.Add(i);
+                    anotherVertexes.Add(i);
 
 
             var facets = new List<List<int>>
@@ -52,56 +52,7 @@ namespace GraphTools
                 startCycle
             };
 
-            var currentGraph = new GraphModel(startCycle.Count + anotherVertex.Count, startCycleEdges);
-
-            #endregion
-
-            //Обработка ребер обе вершины которых находятся в изначальном цикле
-
-            #region Straight edges
-
-            // var straightEdges = (List<(int, int)>)anotherEdges.Where(tuple =>
-            //startCycle.Contains(tuple.Item1) && startCycle.Contains(tuple.Item2));
-            // foreach (var straightEdge in straightEdges)
-            // {
-            //     var currentFacet = facets.FirstOrDefault(ints =>
-            //         ints.Contains(straightEdge.Item1) && ints.Contains(straightEdge.Item2));
-            //     if (currentFacet == null)
-            //     {
-            //         //todo
-            //         throw new Exception("Fatal error");
-            //     }
-            //     facets.Remove(currentFacet);
-            //     var newFacet1 = new List<int>();
-            //     var newFacet2 = new List<int>();
-            //     var indexFirst = currentFacet.IndexOf(straightEdge.Item1);
-            //     var indexLast = currentFacet.IndexOf(straightEdge.Item2);
-
-            //     var i = indexFirst;
-            //     while (true)
-            //     {
-            //         newFacet1.Add(i);
-            //         if (i == indexLast)
-            //         {
-            //             break;
-            //         }
-            //         i = (i + 1) % currentFacet.Count;
-            //     }
-            //     facets.Add(newFacet1);
-
-            //     i = indexLast;
-            //     while (true)
-            //     {
-            //         newFacet2.Add(i);
-            //         if (i == indexFirst)
-            //         {
-            //             break;
-            //         }
-            //         i = (i + 1) % currentFacet.Count;
-            //     }
-            //     facets.Add(newFacet2);
-            //     currentGraph.AddEdge(straightEdge);
-            // }
+            var currentGraph = new GraphModel(startCycle.Count + anotherVertexes.Count, startCycleEdges);
 
             #endregion
 
@@ -112,7 +63,7 @@ namespace GraphTools
                 if (anotherEdges.Count == 0) return facets;
 
                 var currentChain = FindGammaChain(currentGraph, anotherEdges);
-                for (var k = 0; k < currentChain.Count - 1; k++) graph.AddEdge((currentChain[k], currentChain[k + 1]));
+                for (var k = 0; k < currentChain.Count - 1; k++) currentGraph.AddEdge((currentChain[k], currentChain[k + 1]));
                 var currentFacet = facets.First(ints =>
                     ints.Contains(currentChain[0]) && ints.Contains(currentChain[currentChain.Count - 1]));
                 facets.Remove(currentFacet);
@@ -169,18 +120,23 @@ namespace GraphTools
                 if (graph.AdjacencyList.ContainsKey(anotherEdge.Item2))
                 {
                     anotherEdges.Remove(anotherEdge);
-                    return new List<int> {anotherEdge.Item1, anotherEdge.Item2};
+                    return new List<int> { anotherEdge.Item1, anotherEdge.Item2 };
                 }
 
-                var colors = new int[graph.AdjacencyList.Count];
-                for (var i = 0; i < colors.Length; i++) colors[i] = 0;
+                var colors = new int[graph.VertexCount];
+                for (var i = 0; i < colors.Length; i++) colors[i] = 1;
+                colors[vertexFirst] = 3;
 
-                var res = new List<int>();
-                ChainDFS(vertexFirst, colors, anotherEdges, graph, res);
+                var res = new List<int>() { vertexFirst };
+                ChainDfs(vertexFirst, colors, anotherEdges, graph, res);
 
                 if (!graph.AdjacencyList.ContainsKey(res[res.Count - 1]))
                     continue;
-                for (var i = 0; i < res.Count - 1; i++) anotherEdges.Remove((res[i], res[i + 1]));
+                for (var i = 0; i < res.Count - 1; i++)
+                {
+                    anotherEdges.Remove((res[i], res[i + 1]));
+                    anotherEdges.Remove((res[i+1], res[i]));
+                }
 
                 return res;
             }
@@ -197,24 +153,25 @@ namespace GraphTools
         /// <param name="edges">Список ребер, используемых для построения цепей</param>
         /// <param name="grap">Иноформация о графе для проверки условия окончания поиска</param>
         /// <param name="chain">Результирующий список</param>
-        private static void ChainDFS(int u, int[] colors, List<(int, int)> edges, GraphModel grap, List<int> chain)
+        private static void ChainDfs(int u, int[] colors, List<(int, int)> edges, GraphModel grap, List<int> chain)
         {
-            if (!grap.AdjacencyList.ContainsKey(u))
-                colors[u] = 2;
-            else
+            if (grap.AdjacencyList.ContainsKey(u) && colors[u] != 3)
                 return;
+            colors[u] = 2;
 
             for (var i = 0; i < edges.Count; i++)
                 if (colors[edges[i].Item2] == 1 && edges[i].Item1 == u)
                 {
                     chain.Add(edges[i].Item2);
-                    ChainDFS(edges[i].Item2, colors, edges, grap, chain);
+                    ChainDfs(edges[i].Item2, colors, edges, grap, chain);
+                    break;
                     colors[edges[i].Item2] = 1;
                 }
                 else if (colors[edges[i].Item1] == 1 && edges[i].Item2 == u)
                 {
                     chain.Add(edges[i].Item1);
-                    ChainDFS(edges[i].Item1, colors, edges, grap, chain);
+                    ChainDfs(edges[i].Item1, colors, edges, grap, chain);
+                    break;
                     colors[edges[i].Item1] = 1;
                 }
         }
@@ -249,14 +206,23 @@ namespace GraphTools
             [Test]
             public void FacetTest2()
             {
-                var graph = new GraphModel(4, new List<(int, int)>
+                var graph = new GraphModel(13, new List<(int, int)>
                 {
                     (0, 1),
                     (1, 2),
-                    (2, 0),
-                    (3, 1),
-                    (3, 2),
-                    (3, 0)
+                    (2, 3),
+                    (3, 4),
+                    (4, 5),
+                    (5, 6),
+                    (6, 7),
+                    (7, 8),
+                    (8, 9),
+                    (9, 0),
+                    (0, 10),
+                    (10, 11),
+                    (10, 12),
+                    (5, 11),
+                    (11, 12),
                 });
                 var t = GetFacets(graph);
             }
@@ -284,7 +250,7 @@ namespace GraphTools
                 var t = GetFacets(graph);
             }
         }
-    }
 
-    #endregion
+        #endregion
+    }
 }
